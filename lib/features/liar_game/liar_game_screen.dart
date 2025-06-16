@@ -115,7 +115,7 @@ class PlayerSelectWidget extends ConsumerWidget {
             const GameSectionTitle('🤔 라이어(또는 바보)로 의심되는 플레이어를 선택하세요!'),
             const SizedBox(height: 24),
             ...List.generate(state.players.length, (idx) => GameCard(
-              onTap: () => ref.read(liarGameProvider.notifier).selectPlayer(idx),
+                onTap: () => ref.read(liarGameProvider.notifier).selectPlayer(idx),
               child: Row(
                 children: [
                   Expanded(
@@ -200,11 +200,11 @@ class PlayerRoleRevealWidget extends ConsumerWidget {
   }
 }
 
-class SettingsButton extends StatelessWidget {
+class SettingsButton extends ConsumerWidget {
   const SettingsButton({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Align(
       alignment: Alignment.topRight,
       child: Padding(
@@ -217,7 +217,42 @@ class SettingsButton extends StatelessWidget {
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
               ),
-              builder: (_) => const SettingsDialog(),
+              builder: (_) => Container(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      title: const Text('브금'),
+                      trailing: Switch(
+                        value: false,
+                        onChanged: (v) {},
+                      ),
+                    ),
+                    ListTile(
+                      title: const Text('화면 흑백 반전'),
+                      trailing: Switch(
+                        value: false,
+                        onChanged: (v) {},
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.home),
+                      label: const Text('홈으로 가기'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                      ),
+                      onPressed: () {
+                        ref.read(liarGameProvider.notifier).resetGame();
+                        Navigator.of(context).pop();
+                        context.go('/');
+                      },
+                    ),
+                  ],
+                ),
+              ),
             );
           },
         ),
@@ -226,52 +261,4 @@ class SettingsButton extends StatelessWidget {
   }
 }
 
-class SettingsDialog extends ConsumerWidget {
-  const SettingsDialog({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return AlertDialog(
-      title: const Text('설정'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListTile(
-            title: const Text('브금'),
-            trailing: Switch(
-              value: false, // TODO: 상태 연결
-              onChanged: (v) {},
-            ),
-          ),
-          ListTile(
-            title: const Text('화면 흑백 반전'),
-            trailing: Switch(
-              value: false, // TODO: 상태 연결
-              onChanged: (v) {},
-            ),
-          ),
-          const SizedBox(height: 16),
-          ElevatedButton.icon(
-            icon: const Icon(Icons.home),
-            label: const Text('홈으로 가기'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-            ),
-            onPressed: () {
-              ref.read(liarGameProvider.notifier).resetGame();
-              Navigator.of(context).pop();
-              context.go('/');
-            },
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('닫기'),
-        ),
-      ],
-    );
-  }
-} 
+ 

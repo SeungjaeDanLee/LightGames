@@ -16,6 +16,7 @@ class GameConstants {
   static const EdgeInsets defaultPadding = EdgeInsets.all(16.0);
   static const EdgeInsets cardPadding = EdgeInsets.all(12.0);
   static const EdgeInsets buttonPadding = EdgeInsets.symmetric(vertical: 20.0);
+  static const Color backgroundColor = Color(0xFF1A1A2E);
 
   // 애니메이션 지속시간
   static const Duration shortAnimation = Duration(milliseconds: 200);

@@ -123,48 +123,35 @@ class _LiarGameSetupWidgetState extends ConsumerState<LiarGameSetupWidget> {
               ),
             ),
             const SizedBox(height: 24),
-            const GameSectionTitle(
+            Text(
               '토론 타이머',
-              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 8),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  onPressed: timerMinutes > 1
-                      ? () => setState(() => timerMinutes--)
-                      : null,
-                  icon: const Icon(Icons.remove),
-                  style: IconButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.surface,
+                const Text('1분', style: TextStyle(color: Colors.grey)),
+                Text(
+                  '$timerMinutes분',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(width: 16),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    '$timerMinutes분',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                IconButton(
-                  onPressed: timerMinutes < 10
-                      ? () => setState(() => timerMinutes++)
-                      : null,
-                  icon: const Icon(Icons.add),
-                  style: IconButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.surface,
-                  ),
-                ),
+                const Text('10분', style: TextStyle(color: Colors.grey)),
               ],
+            ),
+            Slider(
+              value: timerMinutes.toDouble(),
+              min: 1,
+              max: 10,
+              divisions: 9,
+              activeColor: Theme.of(context).colorScheme.primary,
+              onChanged: (value) {
+                setState(() => timerMinutes = value.round());
+              },
             ),
             const SizedBox(height: 32),
             GamePrimaryButton(
@@ -172,16 +159,16 @@ class _LiarGameSetupWidgetState extends ConsumerState<LiarGameSetupWidget> {
               onPressed: category == null
                   ? null
                   : () async {
-                      await ref.read(liarGameProvider.notifier).setSettings(
-                        LiarGameSettings(
-                          playerCount: playerCount,
-                          mode: mode,
-                          category: category!,
-                          timerMinutes: timerMinutes,
-                        ),
-                      );
+                  await ref.read(liarGameProvider.notifier).setSettings(
+                    LiarGameSettings(
+                      playerCount: playerCount,
+                      mode: mode,
+                      category: category!,
+                      timerMinutes: timerMinutes,
+                    ),
+                  );
                       ref.read(liarGameProvider.notifier).startGame();
-                    },
+              },
             ),
           ],
         ),

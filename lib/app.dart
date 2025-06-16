@@ -4,6 +4,7 @@ import 'theme/light_games_theme.dart';
 import 'features/home/home_screen.dart';
 import 'features/liar_game/liar_game_screen.dart';
 import 'features/settings/settings_screen.dart';
+import 'features/charades/charades_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -31,6 +32,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/settings',
       builder: (context, state) => const SettingsScreen(),
+    ),
+    GoRoute(
+      path: '/charades',
+      builder: (context, state) => const CharadesScreen(),
     ),
   ],
 ); 

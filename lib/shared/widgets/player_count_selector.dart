@@ -31,52 +31,27 @@ class PlayerCountSelector extends StatelessWidget {
           const SizedBox(height: 8),
         ],
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
-              onPressed: currentCount > minPlayers
-                  ? () => onChanged(currentCount - 1)
-                  : null,
-              icon: const Icon(Icons.remove),
-              style: IconButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.surface,
-                foregroundColor: Theme.of(context).colorScheme.onSurface,
+            Text('$minPlayers명', style: const TextStyle(color: Colors.grey)),
+            Text(
+              '$currentCount명',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(width: 16),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                '$currentCount명',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            const SizedBox(width: 16),
-            IconButton(
-              onPressed: currentCount < maxPlayers
-                  ? () => onChanged(currentCount + 1)
-                  : null,
-              icon: const Icon(Icons.add),
-              style: IconButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.surface,
-                foregroundColor: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
+            Text('$maxPlayers명', style: const TextStyle(color: Colors.grey)),
           ],
         ),
-        const SizedBox(height: 8),
-        Text(
-          '$minPlayers-$maxPlayers명까지 가능',
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
-          textAlign: TextAlign.center,
+        Slider(
+          value: currentCount.toDouble(),
+          min: minPlayers.toDouble(),
+          max: maxPlayers.toDouble(),
+          divisions: maxPlayers - minPlayers,
+          activeColor: Theme.of(context).colorScheme.primary,
+          onChanged: (value) {
+            onChanged(value.round());
+          },
         ),
       ],
     );

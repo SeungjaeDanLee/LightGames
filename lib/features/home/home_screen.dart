@@ -15,9 +15,24 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              GamePrimaryButton(
-                text: '🕵️ 라이어 게임',
+              ElevatedButton(
                 onPressed: () => context.push('/liar'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  textStyle: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                child: const Text('🕵️ 라이어 게임', style: TextStyle(color: Colors.black)),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () => context.push('/charades'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  textStyle: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                child: const Text('🎭 몸으로 말해요', style: TextStyle(color: Colors.black)),
               ),
             ],
           ),
